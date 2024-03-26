@@ -92,11 +92,7 @@ module "alb" {
         target_group_key = "ex-instance"
       }
     }
-  }
-
-    tags = {
-    Environment = "Dev"}
-    
+  }    
 
 module "blog_sg" {
   source  = "terraform-aws-modules/security-group/aws"
