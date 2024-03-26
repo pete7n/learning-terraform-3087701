@@ -14,10 +14,6 @@ data "aws_ami" "app_ami" {
   owners = ["979382823631"] # Bitnami
 }
 
-data "aws_vpc" "default" {
-  default = true
-}
-
 module "blog_vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
@@ -32,6 +28,7 @@ module "blog_vpc" {
     Environment = "dev"
   }
 }
+
 
 resource "aws_instance" "blog" {
   ami           = data.aws_ami.app_ami.id
@@ -90,10 +87,6 @@ module "alb" {
         status_code = "HTTP_301"
       }
     }
-    ex-https = {
-      port            = 443
-      protocol        = "HTTPS"
-      certificate_arn = "arn:aws:iam::123456789012:server-certificate/test_cert-123456789012"
 
       forward = {
         target_group_key = "ex-instance"
@@ -107,13 +100,16 @@ module "alb" {
       protocol         = "HTTP"
       port             = 80
       target_type      = "instance"
+      targets = {
+        target_id = aws_instance.blod.id
+        port = 80
+      }
     }
   }
 
   tags = {
-    Environment = "Development"
-    Project     = "Example"
-  }
+    Environment = "Dev"
+      }
 }
 
 module "blog_sg" {
