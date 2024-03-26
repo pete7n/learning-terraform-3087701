@@ -94,21 +94,9 @@ module "alb" {
     }
   }
 
-  target_groups = {
-    ex-instance = {
-      name_prefix      = "blog-"
-      protocol         = "HTTP"
-      port             = 80
-      target_type      = "instance"
-      targets = {
-        target_id = aws_instance.blod.id
-        port = 80
-      }
     tags = {
     Environment = "Dev"}
-    }
-  }
-
+    
 
 module "blog_sg" {
   source  = "terraform-aws-modules/security-group/aws"
