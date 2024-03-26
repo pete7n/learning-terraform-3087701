@@ -104,13 +104,11 @@ module "alb" {
         target_id = aws_instance.blod.id
         port = 80
       }
+    tags = {
+    Environment = "Dev"}
     }
   }
 
-  tags = {
-    Environment = "Dev"
-      }
-}
 
 module "blog_sg" {
   source  = "terraform-aws-modules/security-group/aws"
